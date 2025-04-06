@@ -1,15 +1,26 @@
-Config NeoVim C++ setup (autocomplete, formatting, lsp, advanced syntax highlighting, telescope, comfort keybinds and other small features)
+# nvim-config v2.0
 
-**Requirements**:
+Config for neovim based on [NvChad](https://github.com/NvChad/NvChad).
 
-- https://github.com/neovim/neovim
-- https://github.com/junegunn/vim-plug
-- xclip
+## Installation
 
-**Installation**:
-1. Install the requirements
-2. Clone repository
-3. Open Neovim
-4. Type :PlugInstall
+```bash
+cd ~/.config
+git clone https://github.com/klaym3r/nvim ~/.config/nvim && nvim
+```
 
-![1920x](https://github.com/user-attachments/assets/786c616d-0ffe-45a6-95de-f697c1ffae07)
+Run `:MasonInstallAll`
+
+Delete the `.git` folder from nvim folder.
+
+## Update
+
+Run `Lazy sync` command
+
+## Uninstall
+
+```bash
+rm -rf ~/.config/nvim
+rm -rf ~/.local/state/nvim
+rm -rf ~/.local/share/nvim
+```
