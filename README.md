@@ -2,6 +2,12 @@
 
 Config for neovim based on [NvChad](https://github.com/NvChad/NvChad).
 
+## Dependencies
+
+```bash
+sudo pacman -S nvim prettier omnisharp black 
+```
+
 ## Installation
 
 ```bash
