@@ -23,19 +23,6 @@ lspconfig.omnisharp.setup {
   capabilities = nvlsp.capabilities,
 }
 
-lspconfig.pyright.setup {
-  settings = {
-    pyright = {
-      disableOrganizeImports = true,
-    },
-    python = {
-      analysis = {
-        ignore = { '*' },
-      },
-    },
-  },
-}
-
 -- configuring single server, example: typescript
 -- lspconfig.ts_ls.setup {
 --   on_attach = nvlsp.on_attach,
