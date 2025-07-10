@@ -11,6 +11,9 @@ sudo pacman -S nvim prettier omnisharp black
 ## Installation
 
 ```bash
+cp -r ~/.config/nvim ~/.config/nvim-backup
+cp -r ~/.local/state/nvim ~/.local/state/nvim-backup
+cp -r ~/.local/share/nvim ~/.local/share/nvim-backup
 cd ~/.config
 git clone https://github.com/klaym3r/nvim ~/.config/nvim && nvim
 ```
