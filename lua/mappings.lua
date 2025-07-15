@@ -8,12 +8,15 @@ map("n", "<C-f>", function()
 end, { desc = "Format file" })
 
 -- основные бинды
-map("n", "<Leader>w", "<cmd>w<cr>")
+-- map("n", "<Leader>w", "<cmd>w<cr>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>")
 
 -- Выход
 map("n", "<Leader>q", "<cmd>bd<CR>", { desc = "Close buffer" })
 map("n", "<Leader>Q", "<cmd>qa<CR>", { desc = "Quit all" })
+
+-- Закрыть окно
+-- map("n", "<Leader>c", "<cmd>close<CR>", { desc = "Close active window" })
 
 -- Сплиты
 map("n", "ss", "<C-w>s", { desc = "Split horizontal" })
