@@ -16,11 +16,36 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+lspconfig.ts_ls.setup {
+  on_attach = function (client, bufnr)
+      client.server_capabilities.documentFormattingProvider = false
+  end,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "javascript", "javascriptreact" },
+  cmd = { "typescript-language-server", "--stdio" },
+}
+
 lspconfig.omnisharp.setup {
   cmd = { "/usr/bin/omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
+}
+
+
+lspconfig.pyright.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off",
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+      }
+    }
+  }
 }
 
 -- configuring single server, example: typescript
