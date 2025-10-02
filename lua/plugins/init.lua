@@ -12,16 +12,16 @@ return {
       require "configs.lspconfig"
     end,
   },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 }
-
-
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+  	"nvim-treesitter/nvim-treesitter",
+  	opts = {
+  		ensure_installed = {
+  			"vim", "lua", "vimdoc",
+        "html", "css", "typescript",
+        "cpp", "python", "tsx",
+        "csharp", "c_sharp"
+  		},
+  	},
+  },
 }
