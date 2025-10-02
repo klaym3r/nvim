@@ -20,7 +20,7 @@ return {
   			"vim", "lua", "vimdoc",
         "html", "css", "typescript",
         "cpp", "python", "tsx",
-        "csharp", "c_sharp"
+        "c_sharp"
   		},
   	},
   },
