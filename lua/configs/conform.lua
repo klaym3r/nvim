@@ -7,6 +7,7 @@ local options = {
     typescript = { "prettier" },
     javascriptreact = { "prettier" },
     typescriptreact = { "prettier" },
+    kotlin = { "ktlint" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
