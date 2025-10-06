@@ -36,3 +36,6 @@ require "autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+vim.env.JAVA_HOME = "/usr/lib/jvm/java-17-openjdk"
+vim.env.PATH = vim.env.JAVA_HOME .. "/bin:" .. vim.env.PATH
