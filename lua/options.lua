@@ -3,7 +3,7 @@ require "nvchad.options"
 local opt = vim.opt
 
 -- UI
-opt.mouse = "" -- отключаем мышь
+-- opt.mouse = "" -- отключаем мышь
 opt.number = true
 opt.relativenumber = true
 opt.signcolumn = "yes"
