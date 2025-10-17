@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.keymap.set("n", "<leader>z", function()
       vim.cmd "w"
-      vim.cmd "split | terminal ts-node %"
-    end, { buffer = true, desc = "Run TS file with TS-Node" })
+      vim.cmd "split | terminal tsx %"
+    end, { buffer = true, desc = "Run TS file" })
   end,
 })
