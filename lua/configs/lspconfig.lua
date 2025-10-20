@@ -45,6 +45,8 @@ extend_config("tsserver", {
     end
   end,
   capabilities = nvlsp.capabilities,
+
+  root_markers = { {'tsconfig.json', 'package.json'}, '.git' },
 })
 
 -- Omnisharp: путь можно указать полный или просто 'omnisharp' если в PATH
@@ -65,6 +67,8 @@ extend_config("kotlin_language_server", {
   },
 })
 
+-- vim.lsp.enable(servers)
+
 -- Включаем (auto-activate) нужные конфиги — vim.lsp.enable запускает автоприкрепление по filetypes/root
 local to_enable = vim.tbl_extend("force", vim.deepcopy(servers), { "tsserver" })
 -- Убираем дубли
@@ -72,6 +76,7 @@ local unique = {}
 for _, v in ipairs(to_enable) do
   unique[v] = true
 end
+
 local enable_list = {}
 for k, _ in pairs(unique) do
   table.insert(enable_list, k)
