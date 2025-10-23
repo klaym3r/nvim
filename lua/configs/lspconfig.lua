@@ -50,9 +50,9 @@ extend_config("tsserver", {
 })
 
 -- Omnisharp: путь можно указать полный или просто 'omnisharp' если в PATH
-extend_config("omnisharp", {
-  cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
-})
+-- extend_config("omnisharp", {
+--   cmd = { "dotnet", "/home/klaymer/.local/share/omnisharp/OmniSharp.exe", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
+-- })
 
 -- Kotlin: добавляем настройки компилятора/форматирования (root_dir обычно уже определён в lsp/ конфигах)
 extend_config("kotlin_language_server", {
