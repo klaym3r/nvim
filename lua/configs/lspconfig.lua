@@ -67,6 +67,24 @@ extend_config("kotlin_language_server", {
   },
 })
 
+extend_config("pyright", {
+  settings = {
+    python = {
+      exclude = {
+        "**/__pycache__",
+        "**/.git",
+        "**/env",
+      },
+      reportMissingImports = "warning",
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = false,
+        diagnosticMode = 'openFilesOnly',
+      },
+    },
+  },
+})
+
 -- vim.lsp.enable(servers)
 
 -- Включаем (auto-activate) нужные конфиги — vim.lsp.enable запускает автоприкрепление по filetypes/root
