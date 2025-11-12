@@ -22,6 +22,11 @@ require("lazy").setup({
     import = "nvchad.plugins",
   },
 
+  {
+    "typicode/bg.nvim",
+    lazy = false,
+  },
+
   { import = "plugins" },
 }, lazy_config)
 

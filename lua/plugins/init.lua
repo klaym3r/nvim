@@ -26,11 +26,16 @@ return {
   },
   {
     "nvim-tree/nvim-tree.lua",
-    dependecies = {
+    dependencies = {
       "nvim-tree/nvim-web-devicons"
     },
     config = function()
       require("nvim-tree").setup({
+        update_cwd = true,
+        update_focused_file = {
+          enabled = true,
+          update_cwd = true
+        },
         filters = {
           dotfiles = false,
           git_ignored = false,
