@@ -74,6 +74,7 @@ extend_config("pyright", {
         "**/__pycache__",
         "**/.git",
         "**/env",
+        "**/*.txt"
       },
       reportMissingImports = "warning",
       analysis = {

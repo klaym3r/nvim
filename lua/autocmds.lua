@@ -1,3 +1,4 @@
+-- ЗАПУСК КОДА
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "cs",
   callback = function()
@@ -46,5 +47,17 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.cmd "w"
       vim.cmd "split | terminal tsx %"
     end, { buffer = true, desc = "Run TS file" })
+  end,
+})
+
+-- NvimTree cd
+local function change_root_to_node()
+  require("nvim-tree.api").tree.change_root_to_node()
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "NvimTree",
+  callback = function()
+    vim.keymap.set("n", "<C-CR>", change_root_to_node, { buffer = true, noremap = true, silent = true, desc = "Change root to node" })
   end,
 })
