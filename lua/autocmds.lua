@@ -61,3 +61,13 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<C-CR>", change_root_to_node, { buffer = true, noremap = true, silent = true, desc = "Change root to node" })
   end,
 })
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "markdown", "txt", "env" },
+--   callback = function(opts)
+--     local cmp = require("cmp")
+--     cmp.setup.buffer({ enabled = false })
+--     vim.opt.spelllang = "en_us"
+--     vim.opt.spell = true
+--   end,
+-- })

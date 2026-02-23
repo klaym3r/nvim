@@ -29,3 +29,5 @@ opt.shiftwidth = 2
 -- Splits
 opt.splitbelow = true
 opt.splitright = true
+
+opt.guicursor = "n-v-c-sm:block-Cursor"

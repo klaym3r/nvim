@@ -10,6 +10,8 @@ local servers = {
   "omnisharp",
   "pyright",
   "kotlin_language_server",
+  "typescript-language-server",
+  "bash-language-server"
 }
 
 -- Общая функция для безопасного расширения/регистрации конфига
