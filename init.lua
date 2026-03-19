@@ -48,40 +48,21 @@ vim.env.PATH = vim.env.JAVA_HOME .. "/bin:" .. vim.env.PATH
 -- функция перезагрузки темы для NvChad
 local function reload_theme()
 
-  local file_path = os.getenv("HOME") .. "/.config/hypr/theme_state"
-  local theme_file = io.open(file_path, "r")
+  local file = io.open(os.getenv("HOME") .. "/.config/nvchad_theme_name", "r")
+  if not file then return end
 
-  if theme_file then
-    local mode = theme_file:read("*all"):gsub("%s+", "")
-    theme_file:close()
+  local new_theme = file:read("*all"):gsub("%s+", "")
+  file:close()
 
-    local new_theme = ""
-    local new_bg = ""
+  local nvconfig = require("nvconfig")
+  if nvconfig.base46.theme == new_theme then return end
 
-    if mode == "dark" then
-      new_theme = "catppuccin"
-      new_bg = "dark"
-    else
-      new_theme = "gruvbox_light"
-      new_bg = "light"
-    end
+  nvconfig.base46.theme = new_theme
+  require("plenary.reload").reload_module("base46")
 
-    local nvconfig = require("nvconfig")
-
-    if nvconfig.base46.theme == new_theme then
-      return
-    end
-
-    nvconfig.base46.theme = new_theme
-
-    require("plenary.reload").reload_module("base46")
-
-    local base46 = require("base46")
-    base46.compile()
-
-    vim.o.background = new_bg
-    base46.load_all_highlights()
-  end
+  local base46 = require("base46")
+  base46.compile()
+  base46.load_all_highlights()
 end
 
 vim.api.nvim_create_autocmd("Signal", {

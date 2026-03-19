@@ -38,6 +38,11 @@ end
 extend_config("tsserver", {
   cmd = { "typescript-language-server", "--stdio" },
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "typescript.tsx" },
+  init_options = {
+    preferences = {
+      quotePreference = "single",
+    },
+  },
   -- вызываем nvchad on_attach и одновременно отключаем форматирование у tsserver
   on_attach = function(client, bufnr)
     -- если вы используете отдельный форматтер (null-ls, eslint), отключаем форматирование у tsserver:

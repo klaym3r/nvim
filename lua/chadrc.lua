@@ -2,17 +2,13 @@
 local M = {}
 
 local function get_current_theme()
-  local file_path = os.getenv("HOME") .. "/.config/hypr/theme_state"
-  local file = io.open(file_path, "r")
+  local file = io.open(os.getenv("HOME") .. "/.config/nvchad_theme_name", "r")
 
   if file then
-    local mode = file:read("*all"):gsub("%s+", "")
+    local theme = file:read("*all"):gsub("%s+", "")
     file:close()
-    if mode == "light" then
-      return "catppuccin"
-    end
+    return theme
   end
-
   return "catppuccin"
 end
 
