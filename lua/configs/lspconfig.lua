@@ -10,8 +10,8 @@ local servers = {
   "omnisharp",
   "pyright",
   "kotlin_language_server",
-  "typescript-language-server",
-  "bash-language-server"
+  "bashls",
+  "prismals",
 }
 
 -- Общая функция для безопасного расширения/регистрации конфига
@@ -72,6 +72,11 @@ extend_config("kotlin_language_server", {
       formatting = { enabled = false },
     },
   },
+})
+
+extend_config("prismals", {
+  cmd = { "prisma-language-server", "--stdio" },
+  filetypes = { "prisma" },
 })
 
 extend_config("pyright", {
