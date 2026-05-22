@@ -11,7 +11,7 @@ opt.cursorline = true
 opt.scrolloff = 7
 
 -- Clipboard
-opt.clipboard:append("unnamedplus")
+opt.clipboard:append "unnamedplus"
 
 -- Files
 opt.swapfile = false
@@ -30,4 +30,4 @@ opt.shiftwidth = 2
 opt.splitbelow = true
 opt.splitright = true
 
-opt.guicursor = "n-v-c-sm:block-Cursor"
+-- opt.guicursor = "n-v-c-sm:block-Cursor"

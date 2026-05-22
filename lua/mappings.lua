@@ -4,7 +4,7 @@ local map = vim.keymap.set
 
 -- Форматирование
 map("n", "<C-f>", function()
-  require("conform").format { async = true, lsp_fallback = true }
+  require("conform").format { async = true, lsp_format = "fallback" }
 end, { desc = "Format file" })
 
 -- основные бинды
@@ -57,3 +57,8 @@ map("n", ",f", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
 map("n", ",g", "<cmd>Telescope live_grep<CR>", { desc = "Live grep" })
 map("n", ",b", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
 map("n", ",h", "<cmd>Telescope help_tags<CR>", { desc = "Help tags" })
+
+-- code actions
+map("n", "<Leader>ca", function()
+  vim.lsp.buf.code_action()
+end, { desc = "LSP code action" })

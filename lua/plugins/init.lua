@@ -8,11 +8,16 @@ return {
   -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       require "configs.lspconfig"
     end,
   },
-  { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+  },
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
@@ -46,7 +51,7 @@ return {
     },
     config = function()
       require("nvim-tree").setup {
-        update_cwd = true,
+        sync_root_with_cwd = true,
         filters = {
           dotfiles = false,
           git_ignored = false,
@@ -57,6 +62,7 @@ return {
   {
     "OXY2DEV/markview.nvim",
     lazy = false,
+    enabled = false,
   },
   {
     "lervag/vimtex",

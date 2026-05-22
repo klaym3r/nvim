@@ -14,7 +14,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.keymap.set("n", "<leader>z", function()
       vim.cmd "w"
-      vim.cmd "split | terminal . env/bin/activate.fish; python %"
+      vim.cmd "split | terminal source env/bin/activate.fish; and python %"
     end, { buffer = true, desc = "Run Python code" })
   end,
 })
@@ -58,16 +58,18 @@ end
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "NvimTree",
   callback = function()
-    vim.keymap.set("n", "<C-CR>", change_root_to_node, { buffer = true, noremap = true, silent = true, desc = "Change root to node" })
+    vim.keymap.set(
+      "n",
+      "<C-CR>",
+      change_root_to_node,
+      { buffer = true, noremap = true, silent = true, desc = "Change root to node" }
+    )
   end,
 })
 
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = { "markdown", "txt", "env" },
---   callback = function(opts)
---     local cmp = require("cmp")
---     cmp.setup.buffer({ enabled = false })
---     vim.opt.spelllang = "en_us"
---     vim.opt.spell = true
---   end,
--- })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt.formatoptions:remove { "c", "r", "o" }
+  end,
+})
