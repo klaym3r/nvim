@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
 
@@ -66,7 +66,7 @@ return {
   },
   {
     "lervag/vimtex",
-    lazy = false,
+    ft = { "tex", "plaintex", "latex" },
     init = function()
       vim.g.vimtex_view_method = "zathura"
       vim.g.vimtex_view_forward_search_on_start = false
@@ -75,5 +75,20 @@ return {
   {
     "windwp/nvim-autopairs",
     enabled = false,
+  },
+  {
+    "tpope/vim-dadbod",
+    lazy = true,
+  },
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      "tpope/vim-dadbod",
+      "kristijanhusak/vim-dadbod-completion",
+    },
+    cmd = { "DBUI", "DBUIToggle", "DBUIAddConnection" },
+    init = function()
+      vim.g.db_ui_use_nerd_fonts = 1
+    end,
   },
 }

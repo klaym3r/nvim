@@ -6,7 +6,7 @@ local options = {
 
   formatters_by_ft = {
     lua = { "stylua" },
-    python = { "black" },
+    python = { "ruff_format" },
     json = { "prettier" },
     javascript = { "prettier" },
     typescript = { "prettier" },
@@ -18,11 +18,6 @@ local options = {
   },
 
   formatters = {
-    black = {
-      command = "black",
-      args = { "--quiet", "-" },
-      stdin = true,
-    },
     prettier = {
       prepend_args = { "--single-quote", "--tab-width", "2", "--no-use-tabs" },
     },

@@ -11,6 +11,10 @@ end, { desc = "Format file" })
 -- map("n", "<Leader>w", "<cmd>w<cr>")
 map({ "n", "i", "v" }, "<C-s>", "<cmd>w<cr>")
 
+-- Выход из insert mode
+map("i", "jk", "<Esc>", { desc = "Exit insert mode" })
+map("i", "jj", "<Esc>", { desc = "Exit insert mode" })
+
 -- Выход
 map("n", "<Leader>q", "<cmd>bd<CR>", { desc = "Close buffer" })
 map("n", "<Leader>Q", "<cmd>qa<CR>", { desc = "Quit all" })
