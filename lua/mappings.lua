@@ -66,3 +66,6 @@ map("n", ",h", "<cmd>Telescope help_tags<CR>", { desc = "Help tags" })
 map("n", "<Leader>ca", function()
   vim.lsp.buf.code_action()
 end, { desc = "LSP code action" })
+
+-- Markdown preview (markview.nvim)
+map("n", "<Leader>mp", "<cmd>Markview Toggle<CR>", { desc = "Toggle markdown preview" })

@@ -13,36 +13,38 @@ return {
       require "configs.lspconfig"
     end,
   },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-  },
+  -- catppuccin убран: тема идёт через base46 (chadrc theme = "kitty"),
+  -- обычный colorscheme-плагин NvChad всё равно не использует.
   {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
-    opts = {
-      ensure_installed = {
-        "vim",
-        "lua",
-        "vimdoc",
-        "html",
-        "css",
-        "typescript",
-        "cpp",
-        "python",
-        "tsx",
-        "c_sharp",
-        "kotlin",
-      },
-      auto_install = true,
-      highlight = {
-        enable = true,
-      },
-      indent = {
-        enable = true,
-      },
-    },
+    -- Ветка main: setup() понимает только install_dir, а ensure_installed /
+    -- auto_install / highlight / indent молча игнорируются. Подсветку включает
+    -- сам NvChad (vim.treesitter.start в nvchad.autocmds), а парсеры ставим тут.
+    config = function()
+      local ts = require "nvim-treesitter"
+      ts.setup {}
+
+      -- Языки нужны не только для своих файлов, но и для ```блоков``` в markdown:
+      -- инъекции подсвечиваются только при установленном парсере.
+      local ensure_installed = {
+        "vim", "vimdoc", "lua", "luadoc", "printf", "query",
+        "html", "css", "javascript", "typescript", "tsx",
+        "c", "cpp", "c_sharp", "kotlin", "python", "java", "go", "rust",
+        "bash", "json", "yaml", "toml", "sql", "dockerfile",
+        "diff", "xml", "ini", "regex", "gitcommit", "gitignore",
+        "markdown", "markdown_inline",
+      }
+
+      local installed = ts.get_installed()
+      local missing = vim.tbl_filter(function(lang)
+        return not vim.list_contains(installed, lang)
+      end, ensure_installed)
+
+      if #missing > 0 then
+        ts.install(missing)
+      end
+    end,
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -61,8 +63,11 @@ return {
   },
   {
     "OXY2DEV/markview.nvim",
-    lazy = false,
-    enabled = false,
+    ft = "markdown", -- подгружается только для markdown-файлов
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
   },
   {
     "lervag/vimtex",

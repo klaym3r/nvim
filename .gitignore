@@ -1,1 +1,9 @@
-node_modules
+node_modules/
+
+# логи и мусор
+nvim.log
+*.old
+*.bak
+
+# состояние lazy/mason, если вдруг окажется внутри конфига
+lazy-lock.json.bak

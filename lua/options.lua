@@ -11,14 +11,16 @@ opt.cursorline = true
 opt.scrolloff = 7
 
 -- Clipboard
-opt.clipboard:append "unnamedplus"
+-- Присваиваем, а не :append — иначе при повторном source в списке
+-- появляется второй "unnamedplus".
+opt.clipboard = "unnamedplus"
 
 -- Files
 opt.swapfile = false
 opt.backup = false
 opt.writebackup = false
 opt.fileformat = "unix"
-opt.encoding = "utf-8"
+-- opt.encoding в nvim всегда utf-8 и менять его нельзя — строка была no-op
 
 -- Indentation
 opt.smartindent = true
@@ -30,4 +32,8 @@ opt.shiftwidth = 2
 opt.splitbelow = true
 opt.splitright = true
 
--- opt.guicursor = "n-v-c-sm:block-Cursor"
+-- Wrapping
+opt.wrap = true
+opt.linebreak = true -- перенос по границе слова, а не посреди него
+
+opt.guicursor = "a:block-Cursor"

@@ -28,14 +28,29 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
+-- JAVA_HOME нужен kotlin_language_server. Ставим только если путь существует:
+-- иначе в PATH на каждом старте уезжает несуществующий префикс.
+for _, dir in ipairs { vim.env.JAVA_HOME, "/usr/lib/jvm/java-17-openjdk", "/usr/lib/jvm/default" } do
+  if dir and vim.uv.fs_stat(dir) then
+    vim.env.JAVA_HOME = dir
+    vim.env.PATH = dir .. "/bin:" .. vim.env.PATH
+    break
+  end
+end
+
 require "options"
 require "nvchad.autocmds"
 require "autocmds"
-require "snippets"
 
 vim.schedule(function()
   require "mappings"
 end)
 
-vim.env.JAVA_HOME = "/usr/lib/jvm/java-17-openjdk"
-vim.env.PATH = vim.env.JAVA_HOME .. "/bin:" .. vim.env.PATH
+-- Сниппеты тянут за собой luasnip, поэтому грузим их при первом входе в insert,
+-- а не на старте — иначе ленивая загрузка luasnip теряет смысл.
+vim.api.nvim_create_autocmd("InsertEnter", {
+  once = true,
+  callback = function()
+    require "snippets"
+  end,
+})
