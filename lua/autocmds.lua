@@ -39,8 +39,8 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Java: компиляция в отдельный каталог + запуск. Как и в C++, при ошибке
--- компиляции терминал не открываем, чтобы не запустить прошлые .class.
+-- Java: компиляция + запуск. Как и в C++, при ошибке компиляции терминал не
+-- открываем, чтобы не запустить прошлые .class.
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = "java",
@@ -49,14 +49,28 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.cmd "write"
 
       local file = vim.api.nvim_buf_get_name(ev.buf)
-      local class = vim.fn.fnamemodify(file, ":t:r")
       local root = vim.fn.fnamemodify(file, ":h")
+      local lines = vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
+
+      -- Запускаем класс, в котором объявлен main, а не класс по имени файла:
+      -- в Main.java класса Main может не быть вовсе (вся лаба лежит в DTclass),
+      -- и java тогда подхватывала одноимённый .class от прошлой сборки.
+      local class, seen
+      for _, line in ipairs(lines) do
+        seen = line:match "^%s*[%w%s]-class%s+([%w_]+)" or seen
+        if seen and line:find "static" and line:find "void%s+main%s*%(" then
+          class = seen
+          break
+        end
+      end
+
+      class = class or vim.fn.fnamemodify(file, ":t:r")
 
       -- java запускается по полному имени класса, а не по пути к файлу.
       -- Заодно из объявления пакета считаем корень исходников: пакет foo.bar
       -- лежит в <root>/foo/bar, так что поднимаемся на столько же уровней —
       -- без этого javac не найдёт соседние классы проекта.
-      for _, line in ipairs(vim.api.nvim_buf_get_lines(ev.buf, 0, 50, false)) do
+      for _, line in ipairs(lines) do
         local pkg = line:match "^%s*package%s+([%w_.]+)%s*;"
         if pkg then
           class = pkg .. "." .. class
@@ -67,7 +81,23 @@ vim.api.nvim_create_autocmd("FileType", {
         end
       end
 
-      local out = vim.fn.stdpath "cache" .. "/javac"
+      -- Куда складывать .class: по умолчанию корень исходников, то есть рядом
+      -- с самим файлом (пакеты javac разложит по подкаталогам сам). Общий
+      -- каталог на все проекты не годился — .class от прошлой лабы переживал
+      -- сборку, и java запускала чужой класс.
+      -- Переопределяется файлом .javac-out рядом с проектом или выше: одна
+      -- строка с путём, относительный отсчитывается от каталога .javac-out.
+      local out = root
+      local cfg = vim.fs.find(".javac-out", { path = root, upward = true })[1]
+
+      if cfg then
+        local dir = vim.trim(vim.fn.readfile(cfg)[1] or "")
+        if dir ~= "" then
+          dir = vim.fn.expand(dir)
+          out = vim.startswith(dir, "/") and dir or vim.fs.dirname(cfg) .. "/" .. dir
+        end
+      end
+
       local log = vim.fn.system { "javac", "-d", out, "-sourcepath", root, file }
 
       if vim.v.shell_error ~= 0 then
