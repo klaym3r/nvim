@@ -39,6 +39,47 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Java: компиляция в отдельный каталог + запуск. Как и в C++, при ошибке
+-- компиляции терминал не открываем, чтобы не запустить прошлые .class.
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "java",
+  callback = function(ev)
+    vim.keymap.set("n", "<leader>z", function()
+      vim.cmd "write"
+
+      local file = vim.api.nvim_buf_get_name(ev.buf)
+      local class = vim.fn.fnamemodify(file, ":t:r")
+      local root = vim.fn.fnamemodify(file, ":h")
+
+      -- java запускается по полному имени класса, а не по пути к файлу.
+      -- Заодно из объявления пакета считаем корень исходников: пакет foo.bar
+      -- лежит в <root>/foo/bar, так что поднимаемся на столько же уровней —
+      -- без этого javac не найдёт соседние классы проекта.
+      for _, line in ipairs(vim.api.nvim_buf_get_lines(ev.buf, 0, 50, false)) do
+        local pkg = line:match "^%s*package%s+([%w_.]+)%s*;"
+        if pkg then
+          class = pkg .. "." .. class
+          for _ in pkg:gmatch "[^.]+" do
+            root = vim.fn.fnamemodify(root, ":h")
+          end
+          break
+        end
+      end
+
+      local out = vim.fn.stdpath "cache" .. "/javac"
+      local log = vim.fn.system { "javac", "-d", out, "-sourcepath", root, file }
+
+      if vim.v.shell_error ~= 0 then
+        vim.notify(log, vim.log.levels.ERROR, { title = "javac failed" })
+        return
+      end
+
+      vim.cmd(("split | terminal java -cp %s %s"):format(vim.fn.shellescape(out), class))
+    end, { buffer = ev.buf, desc = "Build & Run Java" })
+  end,
+})
+
 -- NvimTree: сделать узел под курсором новым корнем
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,

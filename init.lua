@@ -28,10 +28,24 @@ require("lazy").setup({
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
--- JAVA_HOME нужен kotlin_language_server. Ставим только если путь существует:
--- иначе в PATH на каждом старте уезжает несуществующий префикс.
-for _, dir in ipairs { vim.env.JAVA_HOME, "/usr/lib/jvm/java-17-openjdk", "/usr/lib/jvm/default" } do
-  if dir and vim.uv.fs_stat(dir) then
+-- JAVA_HOME нужен jdtls и kotlin_language_server. Ставим только если путь
+-- существует: иначе в PATH на каждом старте уезжает несуществующий префикс.
+-- Собираем список отдельно: в { vim.env.JAVA_HOME, ... } с незаданным JAVA_HOME
+-- первым элементом оказывается nil, и ipairs обрывается, не дойдя до фолбэков.
+local java_candidates = {}
+
+if vim.env.JAVA_HOME then
+  table.insert(java_candidates, vim.env.JAVA_HOME)
+end
+
+vim.list_extend(java_candidates, {
+  vim.fn.expand "~/.local/share/jdk/current",
+  "/usr/lib/jvm/java-17-openjdk",
+  "/usr/lib/jvm/default",
+})
+
+for _, dir in ipairs(java_candidates) do
+  if vim.uv.fs_stat(dir) then
     vim.env.JAVA_HOME = dir
     vim.env.PATH = dir .. "/bin:" .. vim.env.PATH
     break
