@@ -72,6 +72,15 @@ M.base_16 = {
   base0F = br_red,
 }
 
+-- Правки только для этой темы: в отличие от hl_override в chadrc, polish_hl
+-- не задевает другие темы при переключении через <leader>th.
+M.polish_hl = {
+  treesitter = {
+    -- инлайн `код` в markdown (по умолчанию base09 = ярко-красный)
+    ["@markup.raw"] = { fg = cyan },
+  },
+}
+
 M.type = "dark"
 
 M = require("base46").override_theme(M, "kitty")
