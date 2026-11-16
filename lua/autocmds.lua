@@ -1,4 +1,5 @@
 local augroup = vim.api.nvim_create_augroup("UserConfig", { clear = true })
+require("configs.math_preview").setup()
 
 -- ЗАПУСК КОДА (<leader>z)
 -- %s подставляется через shellescape, поэтому пути с пробелами не ломаются.
@@ -118,6 +119,18 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<C-CR>", function()
       require("nvim-tree.api").tree.change_root_to_node()
     end, { buffer = ev.buf, silent = true, desc = "Change root to node" })
+  end,
+})
+
+-- Формулы в Markdown: включать отдельно для каждого буфера через <leader>mp.
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "markdown",
+  callback = function(ev)
+    require("configs.math_preview").window()
+    vim.keymap.set("n", "<leader>mp", function()
+      require("configs.math_preview").toggle()
+    end, { buffer = ev.buf, desc = "Toggle LaTeX preview" })
   end,
 })
 

@@ -33,7 +33,7 @@ return {
         "c", "cpp", "c_sharp", "kotlin", "python", "java", "go", "rust",
         "bash", "json", "yaml", "toml", "sql", "dockerfile",
         "diff", "xml", "ini", "regex", "gitcommit", "gitignore",
-        "markdown", "markdown_inline",
+        "markdown", "markdown_inline", "latex",
       }
 
       local installed = ts.get_installed()
@@ -61,12 +61,23 @@ return {
       }
     end,
   },
+  -- Из snacks нужен только image: картинки и схемы прямо в markdown-буфере
+  -- (kitty graphics protocol). Ленивой загрузкой по ft нельзя — snacks вешает
+  -- свои автокоманды при setup, и первый открытый markdown их бы пропустил.
   {
-    "OXY2DEV/markview.nvim",
-    ft = "markdown", -- подгружается только для markdown-файлов
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
+    "folke/snacks.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {
+      image = {
+        enabled = true,
+        convert = {
+          magick = {
+            -- Поля mathstrut выравнивают размер и базовую линию inline-формул.
+            ["math-inline"] = { "-density", 192, "{src}[{page}]" },
+          },
+        },
+      },
     },
   },
   {
